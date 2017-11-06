@@ -10,4 +10,4 @@ bash create_deployment.sh -i '1236dd96-fdcf-4661-9cb4-0d973d4d7ee4' -g 'iot-gppd
 ./run_deployment.sh 2
 
 - Access nodes from folder
-ssh -i ../../credentials/id_rsa ocarval@<ip>
+ssh -i ../../credentials/id_rsa ocarval@ip-address
