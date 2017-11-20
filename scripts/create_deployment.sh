@@ -89,19 +89,17 @@ fi
 
 #set +e
 
-##Check for existing RG
-#az group show $resourceGroupName 1> /dev/null
+# Check for existing Resource Group
+# az account list-locations
+# az group show -n $resourceGroupName 1> /dev/null
 
-#if [ $? != 0 ]; then
-	#echo "Resource group with name" $resourceGroupName "could not be found. Creating new resource group.."
-	#set -e
-	#(
-		#set -x
-		#az group create --name $resourceGroupName --location $resourceGroupLocation 1> /dev/null
-	#)
-	#else
-	#echo "Using existing resource group..."
-#fi
+echo "Creating resource group and vnet default with name" $resourceGroupName
+set -e
+(
+    set -x
+    az group create -n $resourceGroupName --location brazilsouth 1> /dev/null
+    az network vnet create --name default --resource-group $resourceGroupName --subnet-name default
+)
 
 #Start deployment
 echo "Starting deployment..."

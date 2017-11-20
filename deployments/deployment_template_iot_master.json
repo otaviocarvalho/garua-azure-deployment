@@ -53,16 +53,16 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group/providers/Microsoft.Network/virtualNetworks/iot-gppd-otavio-resource-group-vnet/subnets/default"
+                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/virtualNetworks/default/subnets/default"
                             },
                             "publicIPAddress": {
-                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group/providers/Microsoft.Network/publicIPAddresses/iot-gppd-otavio-auto-masterPublicIP"
+                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/publicIPAddresses/iot-gppd-otavio-auto-masterPublicIP"
                             }
                         }
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group/providers/Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-masterNSG"
+                    "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-masterNSG"
                 }
             },
             "dependsOn": [
@@ -83,7 +83,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group/providers/Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-masterVMNic"
+                            "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-masterVMNic"
                         }
                     ]
                 },
@@ -118,6 +118,26 @@
             },
             "dependsOn": [
                 "Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-masterVMNic"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat('iot-gppd-otavio-auto-master/bootstrapServer')]",
+            "apiVersion": "2017-03-30",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "CustomScript",
+                "typeHandlerVersion": "2.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                },
+                "protectedSettings":{
+                    "commandToExecute": "mkdir /home/ocarval/go && mkdir /home/ocarval/go/src/ && cd /home/ocarval/go/src/ && git clone https://github.com/otaviocarvalho/grpc_poc"
+                }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/iot-gppd-otavio-auto-master)]"
             ]
         }
     ],
