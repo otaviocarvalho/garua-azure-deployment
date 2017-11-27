@@ -1,0 +1,172 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[concat('iot-gppd-otavio-auto-edge-', copyIndex(1), 'NSG')]",
+            "apiVersion": "2015-06-15",
+            "location": "brazilsouth",
+            "tags": {},
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-ssh",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1000,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "grpc-inbound",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50051",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "grpc-outbound",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50051",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Outbound"
+                        }
+                    }
+                ]
+            },
+            "copy": {
+                "name": "networkSecurityGroupCopy",
+                "count": 50
+            },
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[concat('iot-gppd-otavio-auto-edge-', copyIndex(1), 'VMNic')]",
+            "apiVersion": "2015-06-15",
+            "location": "brazilsouth",
+            "tags": {},
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "[concat('ipconfigiot-gppd-otavio-auto-edge-', copyIndex(1))]",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/virtualNetworks/default/subnets/default"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[concat('/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-edge-', copyIndex(1), 'NSG')]"
+                }
+            },
+            "copy": {
+                "name": "networkInterfacesCopy",
+                "count": 50
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-edge-', copyIndex(1), 'NSG')]"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[concat('iot-gppd-otavio-auto-edge-', copyIndex(1))]",
+            "apiVersion": "2017-03-30",
+            "location": "brazilsouth",
+            "tags": {},
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS1_v2"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat('/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-edge-', copyIndex(1), 'VMNic')]"
+                        }
+                    ]
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "createOption": "fromImage",
+                        "name": null,
+                        "caching": null,
+                        "managedDisk": {
+                            "storageAccountType": null
+                        }
+                    },
+                    "imageReference": {
+                        "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group/providers/Microsoft.Compute/images/iot-gppd-otavio-ubuntu-image"
+                    }
+                },
+                "osProfile": {
+                    "computerName": "[concat('iot-gppd-otavio-auto-edge-', copyIndex(1))]",
+                    "adminUsername": "ocarval",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCnoU2/MgTadY2TB24foQk4wOTb4lwsvEk9/iXKtjUn03QR4JOVqoYwjeGWno4X2EUZCK1QHgNmgW9B6q5DKkfTUCSKoxR24WODM1/gpLeody2RbefccuZF8FRBah6nVXBUnGXS3TS/jMlTF9kZ7rfaZbDv8c/U7hlmvSvfEQgReQYaux1chptDJVTts3YXi77jU1phAs4RVK8LGxhWfEkDzYQH1rt2lz8MNDIE/JKaFs3ib4HpSPGEefK3QLGS4yKmJl8OQA4SOT94DM6seunkn0Z0iiaOaMcIy2uaOlM15quFxZjCtqeGWWamAI+N0qqhKv6huHqNvjK+iHMV2Ovn ocarvalh@LAocarvalh\n",
+                                    "path": "/home/ocarval/.ssh/authorized_keys"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "copy": {
+                "name": "virtualMachinesCopy",
+                "count": 50
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-edge-', copyIndex(1), 'VMNic')]"
+            ]
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat('iot-gppd-otavio-auto-edge-', copyIndex(1), '/bootstrapServer')]",
+            "apiVersion": "2017-03-30",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "CustomScript",
+                "typeHandlerVersion": "2.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                },
+                "protectedSettings":{
+                    "commandToExecute": "mkdir /home/ocarval/go && mkdir /home/ocarval/go/src/ && cd /home/ocarval/go/src/ && git clone https://github.com/otaviocarvalho/grpc_poc"
+                }
+            },
+            "copy": {
+                "name": "bootstrapCopy",
+                "count": 50
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/iot-gppd-otavio-auto-edge-', copyIndex(1))]"
+            ]
+        }
+    ],
+    "outputs": {}
+}
