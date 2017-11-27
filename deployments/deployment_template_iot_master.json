@@ -24,6 +24,32 @@
                             "priority": 1000,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "grpc-inbound",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50051",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "grpc-outbound",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50051",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Outbound"
+                        }
                     }
                 ]
             },
@@ -137,7 +163,7 @@
                 }
             },
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/iot-gppd-otavio-auto-master)]"
+                "[concat('Microsoft.Compute/virtualMachines/iot-gppd-otavio-auto-master')]"
             ]
         }
     ],

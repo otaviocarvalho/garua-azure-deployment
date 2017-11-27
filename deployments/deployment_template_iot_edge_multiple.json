@@ -24,12 +24,38 @@
                             "priority": 1000,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "grpc-inbound",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50051",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "grpc-outbound",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50051",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Outbound"
+                        }
                     }
                 ]
             },
             "copy": {
                 "name": "networkSecurityGroupCopy",
-                "count": 2
+                "count": 50
             },
             "dependsOn": []
         },
@@ -44,7 +70,7 @@
             },
             "copy": {
                 "name": "publicIPAddressesCopy",
-                "count": 2
+                "count": 50
             },
             "dependsOn": []
         },
@@ -75,7 +101,7 @@
             },
             "copy": {
                 "name": "networkInterfacesCopy",
-                "count": 2
+                "count": 50
             },
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-edge-', copyIndex(1), 'NSG')]",
@@ -130,7 +156,7 @@
             },
             "copy": {
                 "name": "virtualMachinesCopy",
-                "count": 2
+                "count": 50
             },
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-edge-', copyIndex(1), 'VMNic')]"
@@ -154,7 +180,7 @@
             },
             "copy": {
                 "name": "bootstrapCopy",
-                "count": 2
+                "count": 50
             },
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/iot-gppd-otavio-auto-edge-', copyIndex(1))]"
