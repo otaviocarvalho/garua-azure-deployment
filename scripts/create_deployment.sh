@@ -105,7 +105,8 @@ set -e
 echo "Starting deployment..."
 (
 	set -x
-	az group deployment create --name $deploymentName --resource-group $resourceGroupName --template-file $templateFilePath
+	az group deployment create --name $deploymentName --resource-group $resourceGroupName --template-file $templateFilePath --no-wait
+    az group deployment wait --name $deploymentName --resource-group $resourceGroupName --updated --timeout 7200
 )
 
 if [ $?  == 0 ];
