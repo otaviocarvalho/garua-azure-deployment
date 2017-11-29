@@ -159,7 +159,7 @@
                 "settings": {
                 },
                 "protectedSettings":{
-                    "commandToExecute": "mkdir /home/ocarval/go && mkdir /home/ocarval/go/src/ && cd /home/ocarval/go/src/ && git clone https://github.com/otaviocarvalho/grpc_poc"
+                    "commandToExecute": "mkdir /home/ocarval/go && mkdir /home/ocarval/go/src/ && cd /home/ocarval/go/src/ && git clone https://github.com/otaviocarvalho/grpc_poc && cd /home/ocarval/ && git clone https://github.com/otaviocarvalho/garua-azure-deployment.git"
                 }
             },
             "dependsOn": [

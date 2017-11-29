@@ -55,22 +55,7 @@
             },
             "copy": {
                 "name": "networkSecurityGroupCopy",
-                "count": 50
-            },
-            "dependsOn": []
-        },
-        {
-            "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[concat('iot-gppd-otavio-auto-edge-', copyIndex(1), 'PublicIP')]",
-            "apiVersion": "2017-09-01",
-            "location": "brazilsouth",
-            "tags": {},
-            "properties": {
-                "publicIPAllocationMethod": "dynamic"
-            },
-            "copy": {
-                "name": "publicIPAddressesCopy",
-                "count": 50
+                "count": 90
             },
             "dependsOn": []
         },
@@ -88,9 +73,6 @@
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
                                 "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/virtualNetworks/default/subnets/default"
-                            },
-                            "publicIPAddress": {
-                                "id": "[concat('/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/publicIPAddresses/iot-gppd-otavio-auto-edge-', copyIndex(1), 'PublicIP')]"
                             }
                         }
                     }
@@ -101,11 +83,10 @@
             },
             "copy": {
                 "name": "networkInterfacesCopy",
-                "count": 50
+                "count": 90
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-edge-', copyIndex(1), 'NSG')]",
-                "[concat('Microsoft.Network/publicIpAddresses/iot-gppd-otavio-auto-edge-', copyIndex(1), 'PublicIP')]"
+                "[concat('Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-edge-', copyIndex(1), 'NSG')]"
             ]
         },
         {
@@ -156,7 +137,7 @@
             },
             "copy": {
                 "name": "virtualMachinesCopy",
-                "count": 50
+                "count": 90
             },
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-edge-', copyIndex(1), 'VMNic')]"
@@ -180,7 +161,7 @@
             },
             "copy": {
                 "name": "bootstrapCopy",
-                "count": 50
+                "count": 90
             },
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/iot-gppd-otavio-auto-edge-', copyIndex(1))]"
