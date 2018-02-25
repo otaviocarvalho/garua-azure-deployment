@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ -z "$1" ]]; then
-    echo "Number of machines is empty, please provide it. >> ./get_edge_deployment_public_ips <number-of-machines>"
+    echo "Number of machines is empty, please provide it. >> ./get_edge_deployment_private_ips <number-of-machines>"
 else
 
     # Edge nodes
