@@ -2,13 +2,15 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {},
-    "variables": {},
+    "variables": {
+        "deploymentRegion": "brazilsouth"
+    },
     "resources": [
         {
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "iot-gppd-otavio-auto-masterNSG",
             "apiVersion": "2015-06-15",
-            "location": "brazilsouth",
+            "location": "[variables('deploymentRegion')]",
             "tags": {},
             "properties": {
                 "securityRules": [
@@ -50,6 +52,32 @@
                             "priority": 101,
                             "direction": "Outbound"
                         }
+                    },
+                    {
+                        "name": "grpc-inbound-2",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50052",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "grpc-outbound-2",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "50052",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Outbound"
+                        }
                     }
                 ]
             },
@@ -59,7 +87,7 @@
             "type": "Microsoft.Network/publicIPAddresses",
             "name": "iot-gppd-otavio-auto-masterPublicIP",
             "apiVersion": "2017-09-01",
-            "location": "brazilsouth",
+            "location": "[variables('deploymentRegion')]",
             "tags": {},
             "properties": {
                 "publicIPAllocationMethod": "dynamic"
@@ -70,7 +98,7 @@
             "type": "Microsoft.Network/networkInterfaces",
             "name": "iot-gppd-otavio-auto-masterVMNic",
             "apiVersion": "2015-06-15",
-            "location": "brazilsouth",
+            "location": "[variables('deploymentRegion')]",
             "tags": {},
             "properties": {
                 "ipConfigurations": [
@@ -100,7 +128,7 @@
             "type": "Microsoft.Compute/virtualMachines",
             "name": "iot-gppd-otavio-auto-master",
             "apiVersion": "2017-03-30",
-            "location": "brazilsouth",
+            "location": "[variables('deploymentRegion')]",
             "tags": {},
             "properties": {
                 "hardwareProfile": {
@@ -123,7 +151,10 @@
                         }
                     },
                     "imageReference": {
-                        "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group/providers/Microsoft.Compute/images/iot-gppd-otavio-ubuntu-image"
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "16.04-LTS",
+                        "version": "latest"
                     }
                 },
                 "osProfile": {

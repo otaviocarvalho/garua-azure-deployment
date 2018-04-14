@@ -24,5 +24,14 @@ else
         ssh-keyscan $p >> $HOME/.ssh/known_hosts
     done <./pssh_master_hosts.txt
 
+    # Aggregator nodes
+    rm ./pssh_aggregator_hosts.txt
+    touch ./pssh_aggregator_hosts.txt
+    az vm list-ip-addresses -n iot-gppd-otavio-auto-aggregator --query "[0].virtualMachine.network.publicIpAddresses[0].ipAddress" -o tsv >> ./pssh_aggregator_hosts.txt
+
+    while read p; do
+        ssh-keyscan $p >> $HOME/.ssh/known_hosts
+    done <./pssh_aggregator_hosts.txt
+
 fi
 
