@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {},
     "variables": {
-        "deploymentRegion": "brazilsouth"
+        "deploymentRegion": "westus"
     },
     "resources": [
         {
@@ -62,7 +62,7 @@
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 100,
+                            "priority": 102,
                             "direction": "Inbound"
                         }
                     },
@@ -75,7 +75,7 @@
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 101,
+                            "priority": 102,
                             "direction": "Outbound"
                         }
                     }
@@ -107,16 +107,16 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/virtualNetworks/default/subnets/default"
+                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-master/providers/Microsoft.Network/virtualNetworks/default/subnets/default"
                             },
                             "publicIPAddress": {
-                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/publicIPAddresses/iot-gppd-otavio-auto-masterPublicIP"
+                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-master/providers/Microsoft.Network/publicIPAddresses/iot-gppd-otavio-auto-masterPublicIP"
                             }
                         }
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-masterNSG"
+                    "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-master/providers/Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-masterNSG"
                 }
             },
             "dependsOn": [
@@ -137,7 +137,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable/providers/Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-masterVMNic"
+                            "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-master/providers/Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-masterVMNic"
                         }
                     ]
                 },
@@ -190,7 +190,7 @@
                 "settings": {
                 },
                 "protectedSettings":{
-                    "commandToExecute": "mkdir /home/ocarval/go && mkdir /home/ocarval/go/src/ && cd /home/ocarval/go/src/ && git clone https://github.com/otaviocarvalho/grpc_poc && cd /home/ocarval/ && git clone https://github.com/otaviocarvalho/garua-azure-deployment.git"
+                    "commandToExecute": "mkdir /home/ocarval/go && mkdir /home/ocarval/go/src/ && cd /home/ocarval/go/src/ && git clone https://github.com/otaviocarvalho/grpc_poc && runuser -l ocarval -c 'bash /home/ocarval/go/src/grpc_poc/install_dependencies_cloud.sh' && cd /home/ocarval/ && git clone https://github.com/otaviocarvalho/garua-azure-deployment"
                 }
             },
             "dependsOn": [
