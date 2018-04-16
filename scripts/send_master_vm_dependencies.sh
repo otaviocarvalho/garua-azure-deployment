@@ -1,3 +1,3 @@
 #!/bin/bash
-scp -i ../../credentials/id_rsa pssh_edge_hosts.txt ocarval@$IP:~/
-scp -r -i ../../credentials/id_rsa ../../credentials ocarval@$IP:~
+declare masterIp=$(head -1 ./pssh_master_hosts.txt)
+scp -r -i ../../credentials/id_rsa ../../credentials ocarval@$masterIp:~
