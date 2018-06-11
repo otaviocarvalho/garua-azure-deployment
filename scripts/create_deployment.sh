@@ -31,8 +31,7 @@ while getopts ":i:g:n:f:l:" arg; do
             ;;
         l)
 			locationName=${OPTARG}
-
-		esac
+    esac
 done
 shift $((OPTIND-1))
 
