@@ -207,7 +207,7 @@
                 "settings": {
                 },
                 "protectedSettings":{
-                    "commandToExecute": "mkdir /home/ocarval/go && mkdir /home/ocarval/go/src/ && cd /home/ocarval/go/src/ && git clone https://github.com/otaviocarvalho/grpc_poc && runuser -l ocarval -c 'bash /home/ocarval/go/src/grpc_poc/install_dependencies_cloud.sh' && cd /home/ocarval/ && git clone https://github.com/otaviocarvalho/garua-azure-deployment"
+                    "commandToExecute": "mkdir /home/ocarval/go && mkdir /home/ocarval/go/src/ && cd /home/ocarval/go/src/ && git clone https://github.com/otaviocarvalho/grpc_poc && sudo runuser -l ocarval -c 'bash /home/ocarval/go/src/grpc_poc/install_dependencies_cloud.sh' && cd /home/ocarval/ && git clone https://github.com/otaviocarvalho/garua-azure-deployment"
                 }
             },
             "copy": {
