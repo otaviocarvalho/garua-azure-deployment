@@ -4,7 +4,7 @@
     "parameters": {},
     "variables": {
         "deploymentRegion": "brazilsouth",
-        "numberOfNodes": 1
+        "numberOfNodes": 90
     },
     "resources": [
         {
@@ -101,13 +101,13 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
-                                "id": "/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-brazilsouth/providers/Microsoft.Network/virtualNetworks/default/subnets/default"
+                                "id": "[concat('/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-', variables('deploymentRegion'),'/providers/Microsoft.Network/virtualNetworks/default/subnets/default')]"
                             }
                         }
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "[concat('/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-brazilsouth/providers/Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-edge-', copyIndex(1), 'NSG')]"
+                    "id": "[concat('/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-', variables('deploymentRegion'),'/providers/Microsoft.Network/networkSecurityGroups/iot-gppd-otavio-auto-edge-', copyIndex(1), 'NSG')]"
                 }
             },
             "copy": {
@@ -131,7 +131,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[concat('/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-brazilsouth/providers/Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-edge-', copyIndex(1), 'VMNic')]"
+                            "id": "[concat('/subscriptions/1236dd96-fdcf-4661-9cb4-0d973d4d7ee4/resourceGroups/iot-gppd-otavio-resource-group-runnable-', variables('deploymentRegion'),'/providers/Microsoft.Network/networkInterfaces/iot-gppd-otavio-auto-edge-', copyIndex(1), 'VMNic')]"
                         }
                     ]
                 },
